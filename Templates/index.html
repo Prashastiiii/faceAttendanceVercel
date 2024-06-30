@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Face Recognition Attendance System</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      #video-container {
+        display: inline-block;
+        position: relative;
+      }
+      #video {
+        width: 640px;
+        height: 480px;
+      }
+      .buttons {
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Face Recognition Attendance System</h1>
+    <div class="buttons">
+      <button onclick="startRecognition()">Start Recognition</button>
+      <button onclick="stopRecognition()">Stop Recognition</button>
+    </div>
+    <div id="video-container">
+      <img id="video" src="{{ url_for('video_feed') }}" />
+    </div>
+
+    <script>
+      function startRecognition() {
+        fetch("/start_recognition", { method: "POST" });
+        document.getElementById("video").src = "{{ url_for('video_feed') }}";
+      }
+
+      function stopRecognition() {
+        fetch("/stop_recognition", { method: "POST" }).then(() => {
+          document.getElementById("video").src = "";
+        });
+      }
+    </script>
+  </body>
+</html>
